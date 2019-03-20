@@ -24,8 +24,8 @@ import {
 } from '@material-ui/icons';
 
 /* Custom Imports */
-import { CustomDialog } from '../common/dialog';
 import { CompanyTableActions } from './CompanyTableActions';
+import { CompanyAddDialog } from './CompanyAddDialog';
 
 interface ICompanyTable {
     children?: ReactNode;
@@ -33,18 +33,12 @@ interface ICompanyTable {
     classes?: any;
 };
 
-interface IAddCompanyDialog {
-    open: boolean;
-    title: string;
-    description: string;
-};
-
 interface ICompanyTableState {
     rows: Array<any>;
     page: number;
     rowsPerPage: number;
     count: number;
-    addDialog: IAddCompanyDialog;
+    open: boolean;
 };
 
 const CompanyTableRows = [{
@@ -115,11 +109,7 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
         page: 0,
         rowsPerPage: 5,
         count: 0,
-        addDialog: {
-            open: false,
-            title: 'Add company',
-            description: 'To register a new company, please fill out the form below.'
-        }
+        open: false
     };
 
     async componentDidMount() {
@@ -143,20 +133,16 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
     };
 
     openAddDialog = () => {
-        this.setState({
-            addDialog: Object.assign(this.state.addDialog, { open: true })
-        });
+        this.setState({ open: true });
     };
 
     closeAddDialog = () => {
-        this.setState({
-            addDialog: Object.assign(this.state.addDialog, { open: false })
-        });
+        this.setState({ open: false });
     };
 
     render() {
         const { classes } = this.props;
-        const { rows, rowsPerPage, page, count, addDialog } = this.state;
+        const { rows, rowsPerPage, page, count, open } = this.state;
 
         return (
             <Paper className={classes.root}>
@@ -227,14 +213,10 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
                             </TableRow>
                         </TableFooter>
                     </Table>
-                    <CustomDialog
-                        open={addDialog.open}
-                        title={addDialog.title}
-                        description={addDialog.description}
+                    <CompanyAddDialog
+                        open={open}
                         closeDialogAction={this.closeAddDialog}
                         confirmButtonAction={this.openAddDialog}
-                        confirmButtonLabel='Confirm'
-                        cancelButtonLabel='Cancel'
                     />
                 </div>
             </Paper>

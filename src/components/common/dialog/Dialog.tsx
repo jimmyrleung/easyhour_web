@@ -35,15 +35,15 @@ class CustomDialog extends React.Component<IDialog> {
                     <DialogContentText>
                         {this.props.description}
                     </DialogContentText>
-                    <TextField
+                    {/* <TextField
                         autoFocus
                         margin="dense"
                         id="name"
                         label="Email Address"
                         type="email"
                         fullWidth
-                    />
-                    {/* {this.props.children} */}
+                    /> */}
+                    {this.props.children}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.closeDialogAction} color="primary">
