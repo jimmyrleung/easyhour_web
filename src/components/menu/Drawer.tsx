@@ -1,25 +1,30 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import WorkIcon from '@material-ui/icons/Work';
-import PowerIcon from '@material-ui/icons/PowerSettingsNew';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import { CompanyPage } from '../company';
 
+import {
+    IconButton
+    , ListItem
+    , ListItemIcon
+    , ListItemText
+    , Drawer
+    , CssBaseline
+    , AppBar
+    , Toolbar
+    , List
+    , Typography
+    , Divider
+} from '@material-ui/core';
+
+import {
+    Menu as MenuIcon
+    , ChevronLeft as ChevronLeftIcon
+    , ChevronRight as ChevronRightIcon
+} from '@material-ui/icons';
+
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import MenuItems from './MenuItems';
 
 const drawerWidth = 240;
 
@@ -29,24 +34,6 @@ interface IDrawerComponent {
     classes: any;
     title: string;
 };
-
-interface IMenuItem {
-    key: string;
-    name: string;
-    icon: React.ComponentType<SvgIconProps>;
-};
-
-const menuItemsBefore: IMenuItem[] = [{
-    key: 'Company_Menu',
-    name: 'Company',
-    icon: WorkIcon
-}];
-
-const menuItemsAfter: IMenuItem[] = [{
-    key: 'Logout_Menu',
-    name: 'Logout',
-    icon: PowerIcon
-}];
 
 const styles = (theme: Theme) => ({
     root: {
@@ -102,7 +89,7 @@ const styles = (theme: Theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         marginLeft: 0,
-    },
+    }
 });
 
 class PersistentDrawerLeft extends React.Component<IDrawerComponent> {
@@ -161,7 +148,7 @@ class PersistentDrawerLeft extends React.Component<IDrawerComponent> {
                     </div>
                     <Divider />
                     <List>
-                        {menuItemsBefore.map(mi => (
+                        {MenuItems.before.map(mi => (
                             <ListItem button key={mi.key} onClick={this.handleDrawerClose}>
                                 <ListItemIcon>{<mi.icon />}</ListItemIcon>
                                 <ListItemText primary={mi.name} />
@@ -170,7 +157,7 @@ class PersistentDrawerLeft extends React.Component<IDrawerComponent> {
                     </List>
                     <Divider />
                     <List>
-                    {menuItemsAfter.map(mi => (
+                        {MenuItems.after.map(mi => (
                             <ListItem button key={mi.key} onClick={this.handleDrawerClose}>
                                 <ListItemIcon>{<mi.icon />}</ListItemIcon>
                                 <ListItemText primary={mi.name} />
@@ -184,9 +171,7 @@ class PersistentDrawerLeft extends React.Component<IDrawerComponent> {
                     })}
                 >
                     <div className={classes.drawerHeader} />
-                    <Typography paragraph>
-                        Easyhour em construção!
-                    </Typography>
+                    <CompanyPage />
                 </main>
             </div>
         );
