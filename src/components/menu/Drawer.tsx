@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-// import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,9 +15,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import WorkIcon from '@material-ui/icons/Work';
+import PowerIcon from '@material-ui/icons/PowerSettingsNew';
+import { SvgIconProps } from '@material-ui/core/SvgIcon';
+
 
 const drawerWidth = 240;
 
@@ -28,6 +29,24 @@ interface IDrawerComponent {
     classes: any;
     title: string;
 };
+
+interface IMenuItem {
+    key: string;
+    name: string;
+    icon: React.ComponentType<SvgIconProps>;
+};
+
+const menuItemsBefore: IMenuItem[] = [{
+    key: 'Company_Menu',
+    name: 'Company',
+    icon: WorkIcon
+}];
+
+const menuItemsAfter: IMenuItem[] = [{
+    key: 'Logout_Menu',
+    name: 'Logout',
+    icon: PowerIcon
+}];
 
 const styles = (theme: Theme) => ({
     root: {
@@ -142,19 +161,19 @@ class PersistentDrawerLeft extends React.Component<IDrawerComponent> {
                     </div>
                     <Divider />
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                        {menuItemsBefore.map(mi => (
+                            <ListItem button key={mi.key} onClick={this.handleDrawerClose}>
+                                <ListItemIcon>{<mi.icon />}</ListItemIcon>
+                                <ListItemText primary={mi.name} />
                             </ListItem>
                         ))}
                     </List>
                     <Divider />
                     <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                    {menuItemsAfter.map(mi => (
+                            <ListItem button key={mi.key} onClick={this.handleDrawerClose}>
+                                <ListItemIcon>{<mi.icon />}</ListItemIcon>
+                                <ListItemText primary={mi.name} />
                             </ListItem>
                         ))}
                     </List>
@@ -173,10 +192,5 @@ class PersistentDrawerLeft extends React.Component<IDrawerComponent> {
         );
     }
 }
-
-// PersistentDrawerLeft.propTypes = {
-//     classes: PropTypes.object.isRequired,
-//     theme: PropTypes.object.isRequired,
-// };
 
 export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft);
