@@ -1,5 +1,6 @@
 import React from 'react';
 import { CustomDialog } from '../common/dialog';
+import { CompanyForm } from './';
 
 // TODO: move to constants
 const dialogDescription = 'To register a new company, please fill out the form below.';
@@ -23,7 +24,9 @@ class CompanyAddDialog extends React.Component<IAddCompanyDialog> {
                 confirmButtonAction={confirmButtonAction}
                 confirmButtonLabel='Confirm'
                 cancelButtonLabel='Cancel'
-            />
+            >
+                <CompanyForm />
+            </CustomDialog>
         )
     }
 }

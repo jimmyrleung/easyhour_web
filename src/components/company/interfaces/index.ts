@@ -1,3 +1,4 @@
+export * from './ICompanyForm';
 export * from './ICompanyTable';
 export * from './ICompanyModel';
 export * from './ICompanyTableState';

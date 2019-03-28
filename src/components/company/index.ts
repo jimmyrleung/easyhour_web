@@ -1,3 +1,4 @@
+export * from './CompanyForm';
 export * from './CompanyPage';
 export * from './CompanyTable';
 export * from './CompanyTableHeader';
