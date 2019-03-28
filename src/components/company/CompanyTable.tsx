@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 /* Material Imports */
 import { withStyles, Theme } from '@material-ui/core/styles';
@@ -13,35 +13,13 @@ import {
     , TableRow
     , Paper
     , IconButton
-    , Typography
-    , Grid,
-    Button
 } from '@material-ui/core';
 
-import {
-    Edit as EditIcon
-    , Delete as DeleteIcon
-} from '@material-ui/icons';
-
 /* Custom Imports */
-import { CompanyTableActions } from './CompanyTableActions';
-import { CompanyAddDialog } from './CompanyAddDialog';
+import { CompanyTableActions, CompanyTableHeader, CompanyTableItem } from './';
+import { ICompanyTable, ICompanyTableState, ICompanyModel } from './interfaces';
 
-interface ICompanyTable {
-    children?: ReactNode;
-    theme?: Theme;
-    classes?: any;
-};
-
-interface ICompanyTableState {
-    rows: Array<any>;
-    page: number;
-    rowsPerPage: number;
-    count: number;
-    open: boolean;
-};
-
-const CompanyTableRows = [{
+const CompanyTableRows: ICompanyModel[] = [{
     id: 1,
     companyName: 'Test Company 1 LTDA',
     tradingName: 'Test Company 1',
@@ -108,8 +86,7 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
         rows: [],
         page: 0,
         rowsPerPage: 5,
-        count: 0,
-        open: false
+        count: 0
     };
 
     async componentDidMount() {
@@ -132,33 +109,14 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
         await this.updateRows();
     };
 
-    openAddDialog = () => {
-        this.setState({ open: true });
-    };
-
-    closeAddDialog = () => {
-        this.setState({ open: false });
-    };
-
     render() {
         const { classes } = this.props;
-        const { rows, rowsPerPage, page, count, open } = this.state;
+        const { rows, rowsPerPage, page, count } = this.state;
 
         return (
             <Paper className={classes.root}>
                 <div className={classes.tableWrapper}>
-                    <Grid container style={{ flex: 1 }}>
-                        <Grid style={{ textAlign: 'left' }} item sm={10} xs>
-                            <Typography className={classes.tableTitle} component="h2" variant="display1" gutterBottom>
-                                Companies List
-                            </Typography>
-                        </Grid>
-                        <Grid style={{ textAlign: 'right' }} item sm={2} xs>
-                            <Button variant="contained" color="primary" className={classes.tableAddButton} onClick={this.openAddDialog}>
-                                Add new
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    <CompanyTableHeader />
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
@@ -171,28 +129,7 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
                         </TableHead>
                         <TableBody>
                             {rows.map(row => (
-                                <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                        {row.companyName}
-                                    </TableCell>
-                                    <TableCell>{row.tradingName}</TableCell>
-                                    <TableCell>{row.registerNumber}</TableCell>
-                                    <TableCell>{row.zipcode}</TableCell>
-                                    <TableCell align="right">
-                                        <IconButton
-                                            color="inherit"
-                                            aria-label="Edit"
-                                        >
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton
-                                            color="inherit"
-                                            aria-label="Delete"
-                                        >
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
+                                <CompanyTableItem item={row} />
                             ))}
                         </TableBody>
                         <TableFooter>
@@ -213,11 +150,6 @@ class CompanyTableComponent extends React.Component<ICompanyTable> {
                             </TableRow>
                         </TableFooter>
                     </Table>
-                    <CompanyAddDialog
-                        open={open}
-                        closeDialogAction={this.closeAddDialog}
-                        confirmButtonAction={this.openAddDialog}
-                    />
                 </div>
             </Paper>
         );
@@ -234,14 +166,6 @@ const styles = (theme: Theme) => ({
     },
     tableWrapper: {
         overflowX: 'auto'
-    },
-    tableTitle: {
-        marginLeft: '20px',
-        marginTop: '20px'
-    },
-    tableAddButton: {
-        marginRight: '20px',
-        marginTop: '20px'
     }
 });
 
