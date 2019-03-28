@@ -2,6 +2,7 @@ import React from 'react';
 import { TextField, Grid, Checkbox } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { ICompanyForm } from './interfaces';
+import InputMask from 'react-input-mask';
 
 class CompanyFormComponent extends React.Component<ICompanyForm> {
 
@@ -32,16 +33,24 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                     />
                 </Grid>
                 <Grid style={{ textAlign: 'left', paddingRight: '10px' }} item sm={8} xs>
-                    {/* TODO: CNPJ MASK */}
-                    <TextField
-                        required
-                        fullWidth
-                        id="outlined-register-name"
-                        label="Register Number"
-                        margin="normal"
-                        variant="outlined"
-                        classes={classes.textField}
-                    />
+                    <InputMask
+                        // onChange
+                        // value
+                        mask='99.999.999/9999-99'
+                    >
+                        {(inputProps: any) =>
+                            <TextField
+                                required
+                                fullWidth
+                                id="outlined-register-name"
+                                label="Register Number"
+                                margin="normal"
+                                variant="outlined"
+                                classes={classes.textField}
+                                {...inputProps}
+                            />
+                        }
+                    </InputMask>
                 </Grid>
                 <Grid style={{ textAlign: 'left' }} item sm={4} xs>
                     <TextField
@@ -63,7 +72,7 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={{ root: classes.root, checked: classes.checked }}
                     />Customer
                 </Grid> */}
-            </Grid>
+            </Grid >
         )
     }
 }
