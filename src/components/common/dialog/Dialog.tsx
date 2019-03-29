@@ -35,21 +35,13 @@ class CustomDialog extends React.Component<IDialog> {
                     <DialogContentText>
                         {this.props.description}
                     </DialogContentText>
-                    {/* <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                    /> */}
                     {this.props.children}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.props.closeDialogAction} color="primary">
+                    <Button onClick={this.props.closeDialogAction}>
                         {this.props.cancelButtonLabel}
                     </Button>
-                    <Button onClick={this.props.confirmButtonAction} color="primary">
+                    <Button onClick={this.props.confirmButtonAction} variant="contained" color="primary">
                         {this.props.confirmButtonLabel}
                     </Button>
                 </DialogActions>
