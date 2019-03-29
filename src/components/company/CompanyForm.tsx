@@ -14,8 +14,14 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
 
     handleChange(field: string, e: any) {
         if (e.target) {
+            const fieldHasError = `${field}HasError`;
+            const fieldHelperText = `${field}HelperText`;
+
             this.setState({
-                [field]: e.target.value
+                [field]: e.target.value,
+                [fieldHasError]: false,
+                [fieldHelperText]: (e.target.value.length > 0) && (e.target.maxLength) && (e.target.maxLength > 0) ?
+                    `${e.target.value.length}/${e.target.maxLength}` : ''
             });
         }
     }
@@ -134,7 +140,7 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                 <Grid style={{ textAlign: 'left', padding: '10px 0' }} item sm={12} xs={12}>
                     <Divider />
                     <Typography className={classes.newUserText}>
-                        Register the first user for that company
+                        Register the first user for that company.
                     </Typography>
                 </Grid>
                 <Grid style={{ textAlign: 'left', paddingRight: '10px' }} item sm={6} xs={12}>
