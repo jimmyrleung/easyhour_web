@@ -1,29 +1,22 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { TextField, Grid, Checkbox, Divider, Typography, InputAdornment, IconButton } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
-import { ICompanyForm, ICompanyFormState } from './interfaces';
+import { ICompanyForm } from './interfaces';
 import InputMask from 'react-input-mask';
 import { VisibilityOff, Visibility } from '@material-ui/icons';
+import { CompanyFormModel } from './models';
+import { CompanyConfig } from './constants';
+import { UserConfig } from '../users/constants'
 
 class CompanyFormComponent extends React.Component<ICompanyForm> {
 
-    state: ICompanyFormState = {
-        showPassword: false,
-        showConfirmPassword: false,
-        companyName: '',
-        tradingName: '',
-        zipcode: '',
-        registerNumber: '',
-        email: '',
-        name: '',
-        login: '',
-        password: '',
-        confirmPassword: ''
-    }
+    state: CompanyFormModel = new CompanyFormModel();
 
     handleChange(field: string, e: any) {
         if (e.target) {
-            this.setState({ [field]: e.target.value });
+            this.setState({
+                [field]: e.target.value
+            });
         }
     }
 
@@ -42,6 +35,11 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'companyName')}
                         value={this.state.companyName}
+                        error={this.state.companyNameHasError}
+                        helperText={this.state.companyNameHelperText}
+                        inputProps={{
+                            maxLength: CompanyConfig.COMPANY_NAME_MAX_LENGTH
+                        }}
                     />
                 </Grid>
                 <Grid style={{ textAlign: 'left' }} item sm={12} xs={12} >
@@ -55,6 +53,11 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'tradingName')}
                         value={this.state.tradingName}
+                        error={this.state.tradingNameHasError}
+                        helperText={this.state.tradingNameHelperText}
+                        inputProps={{
+                            maxLength: CompanyConfig.TRADING_NAME_MAX_LENGTH
+                        }}
                     />
                 </Grid>
                 <Grid style={{ textAlign: 'left', paddingRight: '10px' }} item sm={8} xs={12}>
@@ -72,6 +75,8 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                 margin="normal"
                                 variant="outlined"
                                 classes={classes.textField}
+                                error={this.state.registerNumberHasError}
+                                helperText={this.state.registerNumberHelperText}
                                 {...inputProps}
                             />
                         }
@@ -86,13 +91,14 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                     >
                         {(inputProps: any) =>
                             <TextField
-                                required
                                 fullWidth
                                 id="outlined-zipcode"
                                 label="Zipcode"
                                 margin="normal"
                                 variant="outlined"
                                 classes={classes.textField}
+                                error={this.state.zipcodeHasError}
+                                helperText={this.state.zipcodeHelperText}
                                 {...inputProps}
                             />
                         }
@@ -108,7 +114,12 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         variant="outlined"
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'email')}
+                        error={this.state.emailHasError}
                         value={this.state.email}
+                        helperText={this.state.emailHelperText}
+                        inputProps={{
+                            maxLength: UserConfig.USER_EMAIL_MAX_LENGTH
+                        }}
                     />
                 </Grid>
                 {/* Verify if this checkbox is really needed */}
@@ -137,6 +148,11 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'name')}
                         value={this.state.name}
+                        error={this.state.nameHasError}
+                        helperText={this.state.nameHelperText}
+                        inputProps={{
+                            maxLength: UserConfig.USER_NAME_MAX_LENGTH
+                        }}
                     />
                 </Grid>
                 <Grid style={{ textAlign: 'left' }} item sm={6} xs={12}>
@@ -150,9 +166,14 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'login')}
                         value={this.state.login}
+                        error={this.state.loginHasError}
+                        helperText={this.state.loginHelperText}
+                        inputProps={{
+                            maxLength: UserConfig.USER_LOGIN_MAX_LENGTH
+                        }}
                     />
                 </Grid>
-                <Grid style={{ textAlign: 'left', paddingTop: '14px', paddingRight: '10px'  }} item sm={6} xs={12}>
+                <Grid style={{ textAlign: 'left', paddingTop: '14px', paddingRight: '10px' }} item sm={6} xs={12}>
                     <TextField
                         required
                         fullWidth
@@ -163,6 +184,8 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         label="Password"
                         value={this.state.password}
                         onChange={this.handleChange.bind(this, 'password')}
+                        error={this.state.passwordHasError}
+                        helperText={this.state.passwordHelperText}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -174,6 +197,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                     </IconButton>
                                 </InputAdornment>
                             )
+                        }}
+                        inputProps={{
+                            maxLength: UserConfig.USER_PASSWORD_MAX_LENGTH
                         }}
                     />
                 </Grid>
@@ -187,6 +213,8 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         type={this.state.showConfirmPassword ? 'text' : 'password'}
                         label="Confirm Password"
                         value={this.state.confirmPassword}
+                        error={this.state.confirmPasswordHasError}
+                        helperText={this.state.confirmPasswordHelperText}
                         onChange={this.handleChange.bind(this, 'confirmPassword')}
                         InputProps={{
                             endAdornment: (
@@ -199,6 +227,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                     </IconButton>
                                 </InputAdornment>
                             )
+                        }}
+                        inputProps={{
+                            maxLength: UserConfig.USER_PASSWORD_MAX_LENGTH
                         }}
                     />
                 </Grid>
