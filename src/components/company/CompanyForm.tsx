@@ -17,13 +17,30 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
             const fieldHasError = `${field}HasError`;
             const fieldHelperText = `${field}HelperText`;
 
+            console.log({
+                ...this.state,
+                [field]: e.target.value,
+                [fieldHasError]: false,
+                [fieldHelperText]: (e.target.value.length > 0) && (e.target.maxLength) && (e.target.maxLength > 0) ?
+                    `${e.target.value.length}/${e.target.maxLength}` : ''
+            })
+
             this.setState({
+                ...this.state,
                 [field]: e.target.value,
                 [fieldHasError]: false,
                 [fieldHelperText]: (e.target.value.length > 0) && (e.target.maxLength) && (e.target.maxLength > 0) ?
                     `${e.target.value.length}/${e.target.maxLength}` : ''
             });
         }
+    }
+
+    isFormValid() {
+
+    }
+
+    isCompanyNameValid() {
+
     }
 
     render() {
@@ -103,7 +120,6 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                 margin="normal"
                                 variant="outlined"
                                 classes={classes.textField}
-                                error={this.state.zipcodeHasError}
                                 helperText={this.state.zipcodeHelperText}
                                 {...inputProps}
                             />

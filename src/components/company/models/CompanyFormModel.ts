@@ -1,3 +1,5 @@
+import { CommonConstants } from '../../common/constants';
+
 export class CompanyFormModel {
     showPassword: boolean = false;
     showConfirmPassword: boolean = false;
@@ -11,18 +13,8 @@ export class CompanyFormModel {
     password: string = '';
     confirmPassword: string = '';
 
-    /* Error flags */
-    companyNameHasError: boolean = false;
-    tradingNameHasError: boolean = false;
-    zipcodeHasError: boolean = false;
-    registerNumberHasError: boolean = false;
-    emailHasError: boolean = false;
-    nameHasError: boolean = false;
-    loginHasError: boolean = false;
-    passwordHasError: boolean = false;
-    confirmPasswordHasError: boolean = false;
-
-    companyNameHelperText: string = '';
+    /* Helper Texts */
+    // companyNameHelperText: string = '';
     tradingNameHelperText: string = '';
     zipcodeHelperText: string = '';
     registerNumberHelperText: string = '';
@@ -31,4 +23,48 @@ export class CompanyFormModel {
     loginHelperText: string = '';
     passwordHelperText: string = '';
     confirmPasswordHelperText: string = '';
+
+    //TODO: Finish the field validation
+    get companyNameHasError(): boolean {
+        return !this.companyName;
+    }
+
+    get tradingNameHasError(): boolean {
+        return !this.tradingName;
+    }
+
+    get registerNumberHasError(): boolean {
+        // TODO: Add validação CNPJ
+        return !this.registerNumber;
+    }
+
+    get nameHasError(): boolean {
+        return !this.name;
+    }
+
+    get emailHasError(): boolean {
+        return !this.email;
+    }
+
+    get loginHasError(): boolean {
+        return !this.login;
+    }
+
+    get passwordHasError(): boolean {
+        return !this.password;
+    }
+
+    get confirmPasswordHasError(): boolean {
+        return !this.confirmPassword;
+    }
+
+    get arePasswordsMatching(): boolean {
+        return this.password !== this.confirmPassword;
+    }
+
+    // TODO: Finish helper text for each field
+    get companyNameHelperText(): string {
+        return this.companyNameHasError ?
+            'The company name is required.' : '';
+    }
 }
