@@ -155,6 +155,52 @@ export class CompanyFormModel {
         }
     }
 
+    get isFormValid() {
+        // If all required fields were touched once and there isn't any
+        // field with error, our form is valid
+        return this._allRequiredFieldsTouched && !this._anyFieldHasError;
+    }
+
+    private get _allRequiredFieldsTouched() {
+        return (
+            this.companyNameTouched &&
+            this.tradingNameTouched &&
+            this.registerNumberTouched &&
+            this.nameTouched &&
+            this.emailTouched &&
+            this.loginTouched &&
+            this.passwordTouched &&
+            this.confirmPasswordTouched
+        );
+    }
+
+    private get _anyFieldHasError() {
+        return (
+            this.companyNameHasError ||
+            this.tradingNameHasError ||
+            this.registerNumberHasError ||
+            this.zipcodeHasError ||
+            this.nameHasError ||
+            this.emailHasError ||
+            this.loginHasError ||
+            this.passwordHasError ||
+            this.confirmPasswordHasError
+        );
+    }
+
+    static setAllFieldsTouched(cf: CompanyFormModel): CompanyFormModel {
+        return Object.assign(new CompanyFormModel(), {
+            ...cf,
+            companyNameTouched: true,
+            tradingNameTouched: true,
+            registerNumberTouched: true,
+            nameTouched: true,
+            emailTouched: true,
+            loginTouched: true,
+            passwordTouched: true,
+            confirmPasswordTouched: true
+        });
+    }
 }
 
 // Function as a property vs function
