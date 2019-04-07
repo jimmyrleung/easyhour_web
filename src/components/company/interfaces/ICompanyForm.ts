@@ -6,5 +6,6 @@ export interface ICompanyForm {
     children?: ReactNode;
     theme?: Theme;
     classes?: any;
+    formData: CompanyFormModel;
     setCompanyForm?(cf: CompanyFormModel): void;
 };

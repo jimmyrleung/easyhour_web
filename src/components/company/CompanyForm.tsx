@@ -11,41 +11,35 @@ import { UserConfig } from '../users/constants';
 import {
     setCompanyForm
 } from './actions';
+
 import { IApplicationState } from '../../config/interfaces';
 
 class CompanyFormComponent extends React.Component<ICompanyForm> {
 
-    state: CompanyFormModel = new CompanyFormModel();
+    static defaultProps = {
+        formData: new CompanyFormModel()
+    }
 
     handleChange(field: string, e: any) {
-        if (e.target) {
-            this.setState({
-                ...this.state,
+        if (e.target && this.props.setCompanyForm) {
+            this.props.setCompanyForm(Object.assign(this.props.formData, {
                 [field]: e.target.value
-            }, () => {
-                if (this.props.setCompanyForm) {
-                    this.props.setCompanyForm(this.state);
-                }
-            });
-
+            }));
         }
     }
 
     handleBlur(field: string) {
         const fieldTouched = `${field}Touched`;
 
-        this.setState({
-            ...this.state,
-            [fieldTouched]: true
-        });
+        if (this.props.setCompanyForm) {
+            this.props.setCompanyForm(Object.assign(this.props.formData, {
+                [fieldTouched]: true
+            }));
+        }
     }
 
     render() {
-        const { classes } = this.props;
-
-        // Workaround solution to use the getters from the model
-        const companyForm =
-            Object.assign(new CompanyFormModel(), this.state);
+        const { classes, formData } = this.props;
 
         return (
             <Grid container style={{ flex: 1 }}>
@@ -60,9 +54,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'companyName')}
                         onBlur={this.handleBlur.bind(this, 'companyName')}
-                        value={this.state.companyName}
-                        error={companyForm.companyNameHasError}
-                        helperText={companyForm.companyNameHelperText}
+                        value={formData.companyName}
+                        error={formData.companyNameHasError}
+                        helperText={formData.companyNameHelperText}
                         inputProps={{
                             maxLength: CompanyConfig.COMPANY_NAME_MAX_LENGTH
                         }}
@@ -79,9 +73,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'tradingName')}
                         onBlur={this.handleBlur.bind(this, 'tradingName')}
-                        value={this.state.tradingName}
-                        error={companyForm.tradingNameHasError}
-                        helperText={companyForm.tradingNameHelperText}
+                        value={formData.tradingName}
+                        error={formData.tradingNameHasError}
+                        helperText={formData.tradingNameHelperText}
                         inputProps={{
                             maxLength: CompanyConfig.TRADING_NAME_MAX_LENGTH
                         }}
@@ -92,7 +86,7 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         mask='99.999.999/9999-99'
                         onChange={this.handleChange.bind(this, 'registerNumber')}
                         onBlur={this.handleBlur.bind(this, 'registerNumber')}
-                        value={this.state.registerNumber}
+                        value={formData.registerNumber}
                     >
                         {(inputProps: any) =>
                             <TextField
@@ -103,8 +97,8 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                 margin="normal"
                                 variant="outlined"
                                 classes={classes.textField}
-                                error={companyForm.registerNumberHasError}
-                                helperText={companyForm.registerNumberHelperText}
+                                error={formData.registerNumberHasError}
+                                helperText={formData.registerNumberHelperText}
                                 {...inputProps}
                             />
                         }
@@ -116,7 +110,7 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         mask='99999-999'
                         onChange={this.handleChange.bind(this, 'zipcode')}
                         onBlur={this.handleBlur.bind(this, 'zipcode')}
-                        value={this.state.zipcode}
+                        value={formData.zipcode}
                     >
                         {(inputProps: any) =>
                             <TextField
@@ -126,8 +120,8 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                 margin="normal"
                                 variant="outlined"
                                 classes={classes.textField}
-                                error={companyForm.zipcodeHasError}
-                                helperText={companyForm.zipcodeHelperText}
+                                error={formData.zipcodeHasError}
+                                helperText={formData.zipcodeHelperText}
                                 {...inputProps}
                             />
                         }
@@ -144,9 +138,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'email')}
                         onBlur={this.handleBlur.bind(this, 'email')}
-                        error={companyForm.emailHasError}
-                        value={this.state.email}
-                        helperText={companyForm.emailHelperText}
+                        error={formData.emailHasError}
+                        value={formData.email}
+                        helperText={formData.emailHelperText}
                         inputProps={{
                             maxLength: UserConfig.USER_EMAIL_MAX_LENGTH
                         }}
@@ -155,7 +149,7 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                 {/* Verify if this checkbox is really needed */}
                 {/* <Grid style={{ textAlign: 'left' }} item sm={12} xs>
                     <Checkbox
-                        // checked={this.state.checkedG}
+                        // checked={formData.checkedG}
                         // onChange={this.handleChange('checkedG')}
                         // value="checkedG"
                         classes={{ root: classes.root, checked: classes.checked }}
@@ -178,9 +172,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'name')}
                         onBlur={this.handleBlur.bind(this, 'name')}
-                        value={this.state.name}
-                        error={companyForm.nameHasError}
-                        helperText={companyForm.nameHelperText}
+                        value={formData.name}
+                        error={formData.nameHasError}
+                        helperText={formData.nameHelperText}
                         inputProps={{
                             maxLength: UserConfig.USER_NAME_MAX_LENGTH
                         }}
@@ -197,9 +191,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         classes={classes.textField}
                         onChange={this.handleChange.bind(this, 'login')}
                         onBlur={this.handleBlur.bind(this, 'login')}
-                        value={this.state.login}
-                        error={companyForm.loginHasError}
-                        helperText={companyForm.loginHelperText}
+                        value={formData.login}
+                        error={formData.loginHasError}
+                        helperText={formData.loginHelperText}
                         inputProps={{
                             maxLength: UserConfig.USER_LOGIN_MAX_LENGTH
                         }}
@@ -212,21 +206,21 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         id="outlined-adornment-password"
                         classes={classes.textField}
                         variant="outlined"
-                        type={this.state.showPassword ? 'text' : 'password'}
+                        type={formData.showPassword ? 'text' : 'password'}
                         label="Password"
-                        value={this.state.password}
+                        value={formData.password}
                         onChange={this.handleChange.bind(this, 'password')}
                         onBlur={this.handleBlur.bind(this, 'password')}
-                        error={companyForm.passwordHasError}
-                        helperText={companyForm.passwordHelperText}
+                        error={formData.passwordHasError}
+                        helperText={formData.passwordHelperText}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="Toggle password visibility"
-                                        onClick={() => this.setState({ showPassword: !this.state.showPassword })}
+                                        onClick={() => this.setState({ showPassword: !formData.showPassword })}
                                     >
-                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {formData.showPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             )
@@ -243,11 +237,11 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                         id="outlined-adornment-confirm-password"
                         classes={classes.textField}
                         variant="outlined"
-                        type={this.state.showConfirmPassword ? 'text' : 'password'}
+                        type={formData.showConfirmPassword ? 'text' : 'password'}
                         label="Confirm Password"
-                        value={this.state.confirmPassword}
-                        error={companyForm.confirmPasswordHasError}
-                        helperText={companyForm.confirmPasswordHelperText}
+                        value={formData.confirmPassword}
+                        error={formData.confirmPasswordHasError}
+                        helperText={formData.confirmPasswordHelperText}
                         onChange={this.handleChange.bind(this, 'confirmPassword')}
                         onBlur={this.handleBlur.bind(this, 'confirmPassword')}
                         InputProps={{
@@ -255,9 +249,9 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="Toggle password visibility"
-                                        onClick={() => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
+                                        onClick={() => this.setState({ showConfirmPassword: !formData.showConfirmPassword })}
                                     >
-                                        {this.state.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                        {formData.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             )
@@ -292,7 +286,9 @@ const styles = (theme: Theme) => ({
 });
 
 const mapStateToProps = (state: IApplicationState) => {
-    console.log(state);
+    return {
+        formData: state.companyForm.data
+    }
 }
 
 const mapDispatchToProps = { setCompanyForm };
