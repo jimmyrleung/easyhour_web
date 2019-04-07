@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 // It's a middleware that gives us access to the dispatch function
 import ReduxThunk from 'redux-thunk';
 
-import reducers from './components/reducers';
+import reducers from './config/reducers';
 
 import './App.css';
 import Drawer from './components/menu/Drawer';

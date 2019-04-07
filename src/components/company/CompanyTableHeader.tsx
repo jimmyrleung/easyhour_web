@@ -44,7 +44,6 @@ class CompanyTableHeaderComponent extends React.Component<ICompanyTableHeader> {
                 <CompanyAddDialog
                     open={open}
                     closeDialogAction={this.closeAddDialog}
-                    confirmButtonAction={this.openAddDialog}
                 />
             </Grid>
         );

@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es5",
+      "es2015"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "checkJs": false,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "@config/interfaces": ["src/config/interfaces"],
+      "@company/actions": ["src/components/company/actions"],
+      "@company/interfaces": ["src/components/company/interfaces"],
+      "@company/constants": ["src/components/company/constants"],
+      "@company/models": ["src/components/company/models"],
+      "@company/reducers": ["src/components/company/reducers"],
+      "@common": ["src/components/common/*"]
+    },
+  },
+  "include": [
+    "src"
+  ]
+}

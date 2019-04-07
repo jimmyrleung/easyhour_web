@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { TextField, Grid, Checkbox, Divider, Typography, InputAdornment, IconButton } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import { ICompanyForm } from './interfaces';
@@ -6,7 +7,11 @@ import InputMask from 'react-input-mask';
 import { VisibilityOff, Visibility } from '@material-ui/icons';
 import { CompanyFormModel } from './models';
 import { CompanyConfig } from './constants';
-import { UserConfig } from '../users/constants'
+import { UserConfig } from '../users/constants';
+import {
+    setCompanyForm
+} from './actions';
+import { IApplicationState } from '../../config/interfaces';
 
 class CompanyFormComponent extends React.Component<ICompanyForm> {
 
@@ -17,7 +22,12 @@ class CompanyFormComponent extends React.Component<ICompanyForm> {
             this.setState({
                 ...this.state,
                 [field]: e.target.value
+            }, () => {
+                if (this.props.setCompanyForm) {
+                    this.props.setCompanyForm(this.state);
+                }
             });
+
         }
     }
 
@@ -281,6 +291,13 @@ const styles = (theme: Theme) => ({
     }
 });
 
-const CompanyForm = withStyles(styles)(CompanyFormComponent);
+const mapStateToProps = (state: IApplicationState) => {
+    console.log(state);
+}
+
+const mapDispatchToProps = { setCompanyForm };
+
+const CompanyFormConnected = connect(mapStateToProps, mapDispatchToProps)(CompanyFormComponent);
+const CompanyForm = withStyles(styles)(CompanyFormConnected);
 
 export { CompanyForm };

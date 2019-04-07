@@ -3,28 +3,30 @@ import { connect } from 'react-redux';
 import { CustomDialog } from '../common/dialog';
 import { CompanyForm } from './';
 import { CompanyFormModel } from './models';
+import { ICompanyAddDialog } from './interfaces';
+import { IApplicationState } from '../../config/interfaces';
 
 // TODO: move to constants
 const dialogDescription = 'To register a new company, please fill out the form below.';
 
-interface IAddCompanyDialog {
-    formData?: CompanyFormModel;
-    open: boolean;
-    closeDialogAction(): void;
-    confirmButtonAction(): void;
-};
 
-class CompanyAddDialogComponent extends React.Component<IAddCompanyDialog> {
+
+class CompanyAddDialogComponent extends React.Component<ICompanyAddDialog> {
+
+    onConfirmButtonClick() {
+        console.log('Confirm Button Clicked!');
+    }
 
     render() {
-        const { open, closeDialogAction, confirmButtonAction } = this.props;
+        const { open, closeDialogAction, formData } = this.props;
+
         return (
             <CustomDialog
                 open={open}
                 title='Add company'
                 description={dialogDescription}
                 closeDialogAction={closeDialogAction}
-                confirmButtonAction={confirmButtonAction}
+                confirmButtonAction={this.onConfirmButtonClick.bind(this)}
                 confirmButtonLabel='Confirm'
                 cancelButtonLabel='Cancel'
             >
@@ -34,13 +36,10 @@ class CompanyAddDialogComponent extends React.Component<IAddCompanyDialog> {
     }
 }
 
-// TODO: After creating an interface to the application state,
-// type the state parameter
-const mapStateToProps = (state: any) => {
-    console.log("Redux Application State", state);
-    // const { name, phone, shift } = state.employeeForm;
-
-    // return { name, phone, shift };
+const mapStateToProps = (state: IApplicationState) => {
+    return {
+        formData: state.companyForm.data
+    };
 };
 
 const CompanyAddDialog = connect(mapStateToProps)(CompanyAddDialogComponent);
