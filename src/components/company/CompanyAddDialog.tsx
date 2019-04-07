@@ -8,7 +8,7 @@ import { CompanyFormModel } from './models';
 const dialogDescription = 'To register a new company, please fill out the form below.';
 
 interface IAddCompanyDialog {
-    formData: CompanyFormModel;
+    formData?: CompanyFormModel;
     open: boolean;
     closeDialogAction(): void;
     confirmButtonAction(): void;
